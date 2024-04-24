@@ -1,0 +1,26 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "ProfileController",
+        "version": "0.1"
+    },
+    "paths": {
+        "/profile": {
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user information",
+                "operationId": "354f5b23296bed4036564563e7423f43",
+                "responses": {
+                    "200": {
+                        "description": "Profile Updated"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        }
+    }
+}
