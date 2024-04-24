@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
+/**
+ * @OA\Info(title="ProfileController", version="0.1")
+ */
 class ProfileController extends Controller
 {
     /**
@@ -25,7 +28,19 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * @OA\Patch(
+     *     path="/profile",
+     *     summary="Update user information",
+     *     tags={"Users"},
+     *     @OA\Parameter(
+     *         name="request",
+     *         in="query",
+     *         description="Request object",
+     *         required=false
+     *     ),
+     *     @OA\Response(response=200, description="Profile Updated"),
+     *     @OA\Response(response=400, description="Invalid request")
+     * )
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
