@@ -12,6 +12,14 @@
                 ],
                 "summary": "Update user information",
                 "operationId": "354f5b23296bed4036564563e7423f43",
+                "parameters": [
+                    {
+                        "name": "request",
+                        "in": "query",
+                        "description": "Request object",
+                        "required": false
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Profile Updated"
