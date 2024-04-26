@@ -19,7 +19,11 @@ class PostFactory extends Factory
         return [
             'id' => fake()->uuid(),
             'title' => fake()->title(),
-            'content' => fake()->text(100),
+            'content' => json_encode([
+                'time' => '1714074280691'
+            ]),
+            'likes' => fake()->randomNumber(),
+            'dislikes' => fake()->randomNumber()
         ];
     }
 }

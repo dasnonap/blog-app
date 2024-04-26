@@ -16,7 +16,7 @@ class UserPostTest extends TestCase
     public function test_user_post(): void
     {
         $user = User::factory()
-            ->has(Post::factory()->count(3))
+            ->has(Post::factory()->count(20))
             ->create();
 
         $response = $this->get('/');
