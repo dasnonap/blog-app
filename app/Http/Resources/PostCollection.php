@@ -7,6 +7,8 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class PostCollection extends ResourceCollection
 {
+    public $collect = PostResource::class;
+
     /**
      * Transform the resource collection into an array.
      *
@@ -16,9 +18,7 @@ class PostCollection extends ResourceCollection
     {
         return [
             // 'current_page' => $this->currentPage(),
-            'data' => $this->collection->map(function ($post) use ($request) {
-                return (new PostResource($post))->toArray($request);
-            }),
+            'data' => $this->collection,
             // 'first_page_url' => $this->url(1),
             // 'from' => $this->firstItem(),
             // 'last_page' => $this->lastPage(),
