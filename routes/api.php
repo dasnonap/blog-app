@@ -15,8 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Fetch All posts (Paginated response)
+Route::get('/posts', [PostsController::class, 'index'])->name('posts.index');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/posts', [PostsController::class, 'index'])->name('posts.index');
+Route::get('/posts/{post}/edit', [PostsController::class, 'edit'])->name('posts.edit');
+
+// Protected routes
+Route::middleware("auth:sanctum")->group(function () {
+});
