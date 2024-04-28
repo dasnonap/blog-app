@@ -22,8 +22,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/posts/{post}/edit', [PostsController::class, 'edit'])->name('posts.edit');
-
 // Protected routes
 Route::middleware("auth:sanctum")->group(function () {
+    Route::post('/posts/create', [PostsController::class, 'create'])->name('posts.edit');
+
+    Route::get('/posts/{post}/edit', [PostsController::class, 'edit'])->name('posts.edit');
 });
