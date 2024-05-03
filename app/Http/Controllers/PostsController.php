@@ -25,13 +25,17 @@ class PostsController extends Controller
     // Get single post
     function edit(string $postId, Request $request)
     {
-        // TO DODD
-        // After setting up User REST AUTH, add check if post is created by the certain user
-        $post = Post::findOrFail($postId);
+        $post = Post::where('id', $postId)
+            ->where('user_id', $request->user()->id)
+            ->firstOrFail();
 
-        $result = (new PostResource($post))->toArray($request);
-
-        return response()->json($result, 200);
+        return response()->json(
+            [
+                'success' => true,
+                'post' => (new PostResource($post))->toArray($request)
+            ],
+            200
+        );
     }
 
     // Create Post
@@ -45,11 +49,17 @@ class PostsController extends Controller
         $post = new Post([
             'title' => $request->title,
             'content' => $request->content,
-            'user_id' => $request->user(),
+            'user_id' => $request->user()->id,
         ]);
 
         $post->save();
 
-        return response()->json(['success' => true], 200);
+        return response()->json(
+            [
+                'success' => true,
+                'post' => (new PostResource($post))->toArray($request)
+            ],
+            200
+        );
     }
 }
