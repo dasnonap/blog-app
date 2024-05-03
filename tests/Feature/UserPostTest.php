@@ -23,4 +23,51 @@ class UserPostTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_user_post_creation(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->post('/api/posts/create', [
+                'title' => 'aaa',
+                'content' => json_encode([
+                    'example' => 'com'
+                ])
+            ]);
+
+        $response
+            ->assertSessionHasNoErrors();
+
+        $post = $response->getData()->post;
+
+        $this->assertNotEmpty($post, "Post not created.");
+    }
+
+    public function test_user_create_and_get_post(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->post('/api/posts/create', [
+                'title' => 'aaa',
+                'content' => json_encode([
+                    'example' => 'com'
+                ])
+            ]);
+
+        $response
+            ->assertSessionHasNoErrors();
+
+        $post = $response->getData()->post;
+
+        $this->assertNotEmpty($post, "Post not created.");
+
+        $response = $this->actingAs($user)
+            ->get(sprintf('/api/posts/%s/edit', $post->id));
+
+        $response->assertSessionHasNoErrors();
+
+        $this->assertNotEmpty($post, "Post information empty");
+    }
 }
