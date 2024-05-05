@@ -27,4 +27,6 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::post('/posts/create', [PostsController::class, 'create'])->name('posts.create');
 
     Route::get('/posts/{post}/edit', [PostsController::class, 'edit'])->name('posts.edit');
+
+    Route::post('/posts/{post}/edit', [PostsController::class, 'update'])->name('posts.update');
 });

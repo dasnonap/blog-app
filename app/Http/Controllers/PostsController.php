@@ -62,4 +62,28 @@ class PostsController extends Controller
             200
         );
     }
+
+    function update(string $postId, Request $request)
+    {
+        $post = Post::where('id', $postId)
+            ->where('user_id', $request->user()->id)
+            ->firstOrFail();
+
+        $request->validate([
+            'title' => 'required'
+        ]);
+
+        $post->title = $request->title;
+        $post->content = $request->content;
+
+        $post->save();
+
+        return response()->json(
+            [
+                'success' => true,
+                'post' => (new PostResource($post))->toArray($request)
+            ],
+            200
+        );
+    }
 }
