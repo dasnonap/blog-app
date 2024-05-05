@@ -70,4 +70,28 @@ class UserPostTest extends TestCase
 
         $this->assertNotEmpty($post, "Post information empty");
     }
+
+    public function test_post_update()
+    {
+        $user = User::factory()
+            ->has(Post::factory()->count(1))
+            ->create();
+
+        $post = $user->posts()->first();
+
+        $this->assertNotEmpty($post, "Post not created.");
+
+        $response = $this->actingAs($user)
+            ->post(
+                sprintf('/api/posts/%s/edit', $post->id),
+                [
+                    'title' => 'aaa',
+                    'content' => json_encode([
+                        'example' => 'com'
+                    ])
+                ]
+            );
+
+        $response->assertSessionHasNoErrors();
+    }
 }
