@@ -86,4 +86,21 @@ class PostsController extends Controller
             200
         );
     }
+
+    function like(Post $post, Request $request)
+    {
+        $post->updateOrFail([
+            'likes' => $post->likes + 1
+        ]);
+
+        $post->save();
+
+        return response()->json(
+            [
+                'success' => true,
+                'newValue' => $post->likes
+            ],
+            200
+        );
+    }
 }

@@ -94,4 +94,17 @@ class UserPostTest extends TestCase
 
         $response->assertSessionHasNoErrors();
     }
+
+    public function test_user_post_like()
+    {
+        $post = Post::inRandomOrder()->limit(1)->get()->first();
+
+        $this->assertNotEmpty($post, 'Post not found');
+
+        $response = $this->patch(
+            sprintf('/api/posts/%s/like', $post->id)
+        );
+
+        $response->assertSessionHasNoErrors();
+    }
 }
