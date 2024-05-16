@@ -18,5 +18,19 @@
         "react-dom": "^18.2.0",
         "tailwindcss": "^3.2.1",
         "vite": "^5.0.0"
+    },
+    "dependencies": {
+        "@udecode/cn": "^33.0.0",
+        "@udecode/plate": "^33.0.4",
+        "@udecode/plate-common": "^33.0.4",
+        "@udecode/plate-ui": "^31.0.0",
+        "class-variance-authority": "^0.7.0",
+        "lucide-react": "^0.378.0",
+        "slate": "^0.103.0",
+        "slate-history": "^0.100.0",
+        "slate-hyperscript": "^0.100.0",
+        "slate-react": "^0.104.0",
+        "tailwind-merge": "^2.3.0",
+        "tailwindcss-animate": "^1.0.7"
     }
 }

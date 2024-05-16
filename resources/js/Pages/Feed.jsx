@@ -11,7 +11,7 @@ import InfiniteScrollLoader from '@/Components/InfiniteScrollLoader';
 // TODO: Add caching
 // TODO: Add pagination
 
-export default function Feed() {
+export default function Feed({phpVersion}) {
 	const containerRef = useRef(null);
 	const bottomRef = useRef(null);
 	const [posts, setPosts] = useState([]);
