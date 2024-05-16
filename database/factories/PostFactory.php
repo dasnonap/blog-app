@@ -19,6 +19,7 @@ class PostFactory extends Factory
         return [
             'id' => fake()->uuid(),
             'title' => fake()->title(),
+            'slug' => fake()->slug,
             'content' => json_encode([
                 'time' => '1714074280691'
             ]),

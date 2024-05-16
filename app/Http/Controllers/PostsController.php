@@ -12,7 +12,6 @@ use Carbon\Carbon;
 class PostsController extends Controller
 {
     // Fetch posts
-
     function index(Request $request)
     {
         $posts = Post::with('user')->paginate();

@@ -19,7 +19,7 @@ class UserPostTest extends TestCase
             ->has(Post::factory()->count(20))
             ->create();
 
-        $response = $this->get('/');
+        $response = $this->get('/api/posts');
 
         $response->assertStatus(200);
     }

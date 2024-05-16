@@ -16,6 +16,7 @@ class PostResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'slug' => $this->slug,
             'title' => $this->title,
             'created_at' => $this->created_at->format('Y-m-d'),
             'post_info' => $this->mergeWhen($request->routeIs('posts.edit'), [
