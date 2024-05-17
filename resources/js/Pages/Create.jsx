@@ -1,9 +1,23 @@
 import { Editor } from '@/Components/plate-ui/editor';
-import { Plate, PlateContent } from '@udecode/plate-common';
 
 const Create = () => {
+	const initialValue = [
+		{
+			type: 'p',
+			children: [
+				{
+					text: 'This is editable plain text with react and history plugins, just like a <textarea>!',
+				},
+			],
+		},
+	];
+
+	const handleOnChange = (newValue) => {
+		console.log({newValue});
+	};
+
 	return (
-		<Plate>
+		<Plate initialValue={initialValue} onChange={handleOnChange}>
 			<Editor placeholder="Type..." />
 		</Plate>
 	);
