@@ -2,7 +2,7 @@ import { Link, Head } from '@inertiajs/react';
 import { fetchPosts } from '../../mock/posts';
 import Card from '@/Components/Card';
 import { useEffect, useRef, useState } from 'react';
-import AnimeSvg from '../../assets/anime.svg';
+import AnimeSvg from 'assets/anime.svg';
 import InfiniteScrollLoader from '@/Components/InfiniteScrollLoader';
 
 // TODO: Extract nav into components
@@ -11,6 +11,13 @@ import InfiniteScrollLoader from '@/Components/InfiniteScrollLoader';
 // TODO: Add caching
 // TODO: Add pagination
 
+interface Post {
+	id: number;
+	title: string;
+	excerpt: string;
+	imageUrl: string;
+}
+
 export default function Feed() {
 	const containerRef = useRef(null);
 	const bottomRef = useRef(null);
@@ -18,6 +25,8 @@ export default function Feed() {
 	const [search, setSearch] = useState('');
 	const [filter, setFilter] = useState('');
 	const [loadingPosts, setLoadingPosts] = useState(false);
+
+	const arr: Post[] = [];
 
 	useEffect(() => {
 		fetchPosts().then((data) => {
