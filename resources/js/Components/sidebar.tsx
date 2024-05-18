@@ -3,7 +3,7 @@ import AnimeSvg from 'assets/anime.svg';
 
 const Sidebar = () => {
 	return (
-		<div className="sidebar py-8 px-6">
+		<div className="sidebar py-8 px-6 bg-white border-r border-gray-100">
 			<input type="search" />
 
 			<nav>

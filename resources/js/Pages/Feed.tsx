@@ -60,7 +60,7 @@ export default function Feed({ auth }) {
 	}, []);
 
 	const postItems = posts.map((post) => (
-		<div className="mt-16 first:mt-0">
+		<div className="mt-16 first:mt-0 xl:flex-[1_0_calc(50%-2rem)] xl:mt-0">
 			<Card
 				key={post.id}
 				title={post.title}
@@ -83,7 +83,7 @@ export default function Feed({ auth }) {
 				<Sidebar />
 
 				<div
-					className="container max-w-screen-md pt-10"
+					className="container max-w-screen-md xl:max-w-screen-xl pt-10 xl:flex flex-wrap gap-8"
 					ref={containerRef}
 				>
 					{postItems && postItems.length > 0 && postItems}
