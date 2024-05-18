@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 // Fetch All posts (Paginated response)
 Route::get('/posts', [PostsController::class, 'index'])->name('posts.index');
 
-Route::patch('/posts/{post}/like', [PostsController::class, 'like'])->name('posts.like');
+Route::get('/posts/liked', [PostsController::class, 'liked'])->name('posts.liked');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -31,4 +31,6 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get('/posts/{post}/edit', [PostsController::class, 'edit'])->name('posts.edit');
 
     Route::post('/posts/{post}/edit', [PostsController::class, 'update'])->name('posts.update');
+
+    Route::patch('/posts/{post}/like', [PostsController::class, 'like'])->name('posts.like');
 });

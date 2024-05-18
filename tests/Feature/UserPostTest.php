@@ -33,7 +33,8 @@ class UserPostTest extends TestCase
                 'title' => 'aaa',
                 'content' => json_encode([
                     'example' => 'com'
-                ])
+                ]),
+                'slug' => 'test-example-alo',
             ]);
 
         $response
@@ -98,12 +99,14 @@ class UserPostTest extends TestCase
     public function test_user_post_like()
     {
         $post = Post::inRandomOrder()->limit(1)->get()->first();
-
+        dump($post->likes);
         $this->assertNotEmpty($post, 'Post not found');
 
         $response = $this->patch(
             sprintf('/api/posts/%s/like', $post->id)
         );
+
+        dd($response);
 
         $response->assertSessionHasNoErrors();
     }

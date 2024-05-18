@@ -86,20 +86,36 @@ class PostsController extends Controller
         );
     }
 
-    function like(Post $post, Request $request)
+    function like(string $post, Request $request)
     {
+        $post = Post::where('id', $post);
+        $result = $post->users()->attach(auth()->id());
+
         $post->updateOrFail([
-            'likes' => $post->likes + 1
+            'likes' => $post->users()->count()
         ]);
+
+        dd(new PostResource($post->load('user', 'users')));
 
         $post->save();
 
         return response()->json(
             [
                 'success' => true,
-                'newValue' => $post->likes
+                'newValue' => $post->likes,
+                'post' => (new PostResource($post))->toArray($request)
             ],
             200
         );
+    }
+
+    function liked(Request $request)
+    {
+        $result = Post::with(['user', 'users'])->where('id', '=', '9bef1f4a-fdc5-317b-b69d-4ee02a1da0f8')->get()->first();
+
+        $result->users()->attach(21);
+
+
+        dd((new PostResource($result))->toArray($request));
     }
 }
