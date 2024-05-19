@@ -99,14 +99,20 @@ class UserPostTest extends TestCase
     public function test_user_post_like()
     {
         $post = Post::inRandomOrder()->limit(1)->get()->first();
-        dump($post->likes);
-        $this->assertNotEmpty($post, 'Post not found');
+        $user = User::factory()->create();
 
-        $response = $this->patch(
-            sprintf('/api/posts/%s/like', $post->id)
-        );
+        // $response = $this->post('/login', [
+        //     'email' => $user->email,
+        //     'password' => 'password',
+        // ]);
 
-        dd($response);
+        // $this->assertAuthenticated();
+
+        $response = $this->actingAs($user)
+            ->patch(
+                sprintf('/api/posts/%s/like', $post->id)
+            );
+        dd('aaaa');
 
         $response->assertSessionHasNoErrors();
     }

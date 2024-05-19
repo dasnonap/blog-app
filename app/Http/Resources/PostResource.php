@@ -19,15 +19,12 @@ class PostResource extends JsonResource
             'slug' => $this->slug,
             'title' => $this->title,
             'created_at' => $this->created_at->format('Y-m-d'),
-            'liked' => $this->users->contains(auth()->id()),
-            'likes' => $this->users()->count(),
+            'liked' => $this->users->contains(auth()->user()->id),
+            'likes' => $this->likes,
+            'author' => $this->user,
+            'dislikes' => $this->dislikes,
             'post_info' => $this->mergeWhen($request->routeIs('posts.edit'), [
                 'content' => $this->content
-            ], []),
-            // Listing data is only on posts.index 
-            'listing_data' => $this->mergeWhen($request->routeIs('posts.index'), [
-                'user' => $this->user->username,
-                'dislikes' => $this->dislikes
             ], []),
         ];
     }

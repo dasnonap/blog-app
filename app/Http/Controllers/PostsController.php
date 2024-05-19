@@ -14,7 +14,7 @@ class PostsController extends Controller
     // Fetch posts
     function index(Request $request)
     {
-        $posts = Post::with('user')->paginate();
+        $posts = Post::with('user', 'users')->paginate();
 
         $result = (new PostCollection($posts))->toArray($request);
 
@@ -88,14 +88,24 @@ class PostsController extends Controller
 
     function like(string $post, Request $request)
     {
-        $post = Post::where('id', $post);
-        $result = $post->users()->attach(auth()->id());
+        $post = Post::with(['user', 'users'])->where('id', '=', $post)->get()->first();
+        $user = auth()->user();
 
-        $post->updateOrFail([
-            'likes' => $post->users()->count()
-        ]);
+        if ($post->users->contains($user->id)) {
+            return response()->json(
+                [
+                    'message' => 'Already liked!',
+                    'success' => false,
+                ],
+                400
+            );
+        }
 
-        dd(new PostResource($post->load('user', 'users')));
+        $post->users()->attach($user->id);
+
+        $post = $post->load('user', 'users');
+
+        $post->likes = $post->users->count();
 
         $post->save();
 
@@ -107,15 +117,5 @@ class PostsController extends Controller
             ],
             200
         );
-    }
-
-    function liked(Request $request)
-    {
-        $result = Post::with(['user', 'users'])->where('id', '=', '9bef1f4a-fdc5-317b-b69d-4ee02a1da0f8')->get()->first();
-
-        $result->users()->attach(21);
-
-
-        dd((new PostResource($result))->toArray($request));
     }
 }
