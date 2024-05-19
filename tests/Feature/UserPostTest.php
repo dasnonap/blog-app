@@ -101,19 +101,10 @@ class UserPostTest extends TestCase
         $post = Post::inRandomOrder()->limit(1)->get()->first();
         $user = User::factory()->create();
 
-        // $response = $this->post('/login', [
-        //     'email' => $user->email,
-        //     'password' => 'password',
-        // ]);
-
-        // $this->assertAuthenticated();
-
         $response = $this->actingAs($user)
             ->patch(
                 sprintf('/api/posts/%s/like', $post->id)
             );
-        dd('aaaa');
-
         $response->assertSessionHasNoErrors();
     }
 }

@@ -23,8 +23,8 @@ class PostFactory extends Factory
             'content' => json_encode([
                 'time' => '1714074280691'
             ]),
-            'likes' => fake()->randomNumber(),
-            'dislikes' => fake()->randomNumber()
+            'likes_count' => 0,
+            'dislikes_count' => 0
         ];
     }
 }

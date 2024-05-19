@@ -18,8 +18,6 @@ use Illuminate\Support\Facades\Route;
 // Fetch All posts (Paginated response)
 Route::get('/posts', [PostsController::class, 'index'])->name('posts.index');
 
-Route::get('/posts/liked', [PostsController::class, 'liked'])->name('posts.liked');
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

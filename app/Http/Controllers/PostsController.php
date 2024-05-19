@@ -14,7 +14,7 @@ class PostsController extends Controller
     // Fetch posts
     function index(Request $request)
     {
-        $posts = Post::with('user', 'users')->paginate();
+        $posts = Post::with('user', 'userLikes')->paginate();
 
         $result = (new PostCollection($posts))->toArray($request);
 
@@ -88,31 +88,21 @@ class PostsController extends Controller
 
     function like(string $post, Request $request)
     {
-        $post = Post::with(['user', 'users'])->where('id', '=', $post)->get()->first();
+        $post = Post::with(['user', 'userLikes'])->where('id', '=', $post)->get()->first();
         $user = auth()->user();
 
-        if ($post->users->contains($user->id)) {
-            return response()->json(
-                [
-                    'message' => 'Already liked!',
-                    'success' => false,
-                ],
-                400
-            );
-        }
+        $post->userLikes()->attach($user->id);
 
-        $post->users()->attach($user->id);
+        $post = $post->load('user', 'userLikes');
 
-        $post = $post->load('user', 'users');
-
-        $post->likes = $post->users->count();
+        $post->likes_count = $post->userLikes->count();
 
         $post->save();
 
         return response()->json(
             [
                 'success' => true,
-                'newValue' => $post->likes,
+                'newValue' => $post->likes_count,
                 'post' => (new PostResource($post))->toArray($request)
             ],
             200

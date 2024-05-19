@@ -19,10 +19,10 @@ class PostResource extends JsonResource
             'slug' => $this->slug,
             'title' => $this->title,
             'created_at' => $this->created_at->format('Y-m-d'),
-            'liked' => $this->users->contains(auth()->user()->id),
-            'likes' => $this->likes,
+            'liked' => $this->userLikes->contains(auth()->user()->id),
+            'likes' => $this->likes_count,
             'author' => $this->user,
-            'dislikes' => $this->dislikes,
+            'dislikes' => $this->dislikes_count,
             'post_info' => $this->mergeWhen($request->routeIs('posts.edit'), [
                 'content' => $this->content
             ], []),
