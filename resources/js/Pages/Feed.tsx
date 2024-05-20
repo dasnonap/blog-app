@@ -2,8 +2,9 @@ import { Link, Head } from '@inertiajs/react';
 import { fetchPosts } from '../../mock/posts';
 import Card from '@/Components/Card';
 import { useEffect, useRef, useState } from 'react';
-import AnimeSvg from '../../assets/anime.svg';
 import InfiniteScrollLoader from '@/Components/InfiniteScrollLoader';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import Sidebar from '@/Components/sidebar';
 
 // TODO: Extract nav into components
 // TODO: On render - fetch relevant posts, based on filter
@@ -11,13 +12,22 @@ import InfiniteScrollLoader from '@/Components/InfiniteScrollLoader';
 // TODO: Add caching
 // TODO: Add pagination
 
-export default function Feed({phpVersion}) {
+interface Post {
+	id: number;
+	title: string;
+	excerpt: string;
+	imageUrl: string;
+}
+
+export default function Feed({ auth }) {
 	const containerRef = useRef(null);
 	const bottomRef = useRef(null);
 	const [posts, setPosts] = useState([]);
 	const [search, setSearch] = useState('');
 	const [filter, setFilter] = useState('');
 	const [loadingPosts, setLoadingPosts] = useState(false);
+
+	const arr: Post[] = [];
 
 	useEffect(() => {
 		fetchPosts().then((data) => {
@@ -50,7 +60,7 @@ export default function Feed({phpVersion}) {
 	}, []);
 
 	const postItems = posts.map((post) => (
-		<div className="mt-16 first:mt-0">
+		<div className="mt-16 first:mt-0 xl:flex-[1_0_calc(50%-2rem)] xl:mt-0">
 			<Card
 				key={post.id}
 				title={post.title}
@@ -62,98 +72,18 @@ export default function Feed({phpVersion}) {
 		</div>
 	));
 
-	const handleClick = (e) => {
-		const { filter } = e.currentTarget.dataset;
-		setFilter(filter);
-	};
-
 	return (
-		<>
+		<AuthenticatedLayout
+			user={auth.user}
+			header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Feed</h2>}
+		>
 			<Head title="Feed" />
 
 			<div className="grid grid-cols-[minmax(312px,_30%)_1fr]">
-				<div className="sidebar py-8 px-6">
-					<input type="search" />
-
-					<nav>
-						<ul className="flex flex-col gap-1 mt-4">
-							<li>
-								<button
-									className="flex items-center gap-1"
-									onClick={handleClick}
-									data-filter="anime"
-								>
-									<i className="ico">
-										<img
-											src={AnimeSvg}
-											width={32}
-											height={32}
-										/>
-									</i>
-
-									<p>Anime</p>
-								</button>
-							</li>
-
-							<li>
-								<button
-									className="flex items-center gap-1"
-									onClick={handleClick}
-									data-filter="movies"
-								>
-									<i className="ico">
-										<img
-											src={AnimeSvg}
-											width={32}
-											height={32}
-										/>
-									</i>
-
-									<p>Movies</p>
-								</button>
-							</li>
-
-							<li>
-								<button
-									className="flex items-center gap-1"
-									onClick={handleClick}
-									data-filter="music"
-								>
-									<i className="ico">
-										<img
-											src={AnimeSvg}
-											width={32}
-											height={32}
-										/>
-									</i>
-
-									<p>Music</p>
-								</button>
-							</li>
-
-							<li>
-								<button
-									className="flex items-center gap-1"
-									onClick={handleClick}
-									data-filter="data"
-								>
-									<i className="ico">
-										<img
-											src={AnimeSvg}
-											width={32}
-											height={32}
-										/>
-									</i>
-
-									<p>Data</p>
-								</button>
-							</li>
-						</ul>
-					</nav>
-				</div>
+				<Sidebar />
 
 				<div
-					className="container max-w-screen-md pt-10"
+					className="container max-w-screen-md xl:max-w-screen-xl pt-10 xl:flex flex-wrap gap-8"
 					ref={containerRef}
 				>
 					{postItems && postItems.length > 0 && postItems}
@@ -167,6 +97,6 @@ export default function Feed({phpVersion}) {
 					)}
 				</div>
 			</div>
-		</>
+		</AuthenticatedLayout>
 	);
 }
