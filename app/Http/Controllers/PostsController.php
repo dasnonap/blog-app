@@ -8,14 +8,37 @@ use App\Http\Resources\PostsResource;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Carbon\Carbon;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use PO;
 
 class PostsController extends Controller
 {
-    // Fetch posts
 
+    /**
+     * Return Post JSON Response
+     * @param Post $post
+     * @param Request $request
+     * @param array $additionalArgs 
+     */
+    private function preparePostResponseArray($post, $request, $additionalArgs = []): array
+    {
+        $responseArgs = [
+            'success' => true,
+            'post' => (new PostResource($post))->toArray($request)
+        ];
+
+        if (!empty($additionalArgs)) {
+            $responseArgs = array_merge($responseArgs, $additionalArgs);
+        }
+
+        return $responseArgs;
+    }
+
+    // Fetch posts
     function index(Request $request)
     {
-        $posts = Post::with('user')->paginate();
+        $posts = Post::with('user', 'userLikes')->paginate();
 
         $result = (new PostCollection($posts))->toArray($request);
 
@@ -30,10 +53,7 @@ class PostsController extends Controller
             ->firstOrFail();
 
         return response()->json(
-            [
-                'success' => true,
-                'post' => (new PostResource($post))->toArray($request)
-            ],
+            $this->preparePostResponseArray($post, $request),
             200
         );
     }
@@ -55,14 +75,12 @@ class PostsController extends Controller
         $post->save();
 
         return response()->json(
-            [
-                'success' => true,
-                'post' => (new PostResource($post))->toArray($request)
-            ],
+            $this->preparePostResponseArray($post, $request),
             200
         );
     }
 
+    // Update
     function update(string $postId, Request $request)
     {
         $post = Post::where('id', $postId)
@@ -79,10 +97,59 @@ class PostsController extends Controller
         $post->save();
 
         return response()->json(
-            [
-                'success' => true,
-                'post' => (new PostResource($post))->toArray($request)
-            ],
+            $this->preparePostResponseArray($post, $request),
+            200
+        );
+    }
+
+    // Like
+    function like(Post $post, Request $request)
+    {
+        $post->userLikePost(auth()->user());
+
+        return response()->json(
+            $this->preparePostResponseArray($post, $request, [
+                'newValue' => $post->likes_count,
+            ]),
+            200
+        );
+    }
+
+    // Unlike
+    function unlike(Post $post, Request $request)
+    {
+        $post->userUnlikePost(auth()->user());
+
+        return response()->json(
+            $this->preparePostResponseArray($post, $request, [
+                'newValue' => $post->likes_count,
+            ]),
+            200
+        );
+    }
+
+    // Dislike
+    function dislike(Post $post, Request $request)
+    {
+        $post->userDislikePost(auth()->user());
+
+        return response()->json(
+            $this->preparePostResponseArray($post, $request, [
+                'newValue' => $post->dislikes_count,
+            ]),
+            200
+        );
+    }
+
+    // Undislike
+    function undislike(Post $post, Request $request)
+    {
+        $post->userUnDislikePost(auth()->user());
+
+        return response()->json(
+            $this->preparePostResponseArray($post, $request, [
+                'newValue' => $post->dislikes_count,
+            ]),
             200
         );
     }

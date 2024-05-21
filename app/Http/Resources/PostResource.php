@@ -14,18 +14,20 @@ class PostResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $user = auth()->user();
+
         return [
             'id' => $this->id,
+            'slug' => $this->slug,
             'title' => $this->title,
             'created_at' => $this->created_at->format('Y-m-d'),
+            'liked' => !empty($user) ? $this->doesUserLikedPost($user) : false,
+            'likes' => $this->likes_count,
+            'disliked' => !empty($user) ? $this->doesUserDislikedPost($user) : false,
+            'dislikes' => $this->dislikes_count,
+            'author' => $this->user,
             'post_info' => $this->mergeWhen($request->routeIs('posts.edit'), [
                 'content' => $this->content
-            ], []),
-            // Listing data is only on posts.index 
-            'listing_data' => $this->mergeWhen($request->routeIs('posts.index'), [
-                'user' => (new UserResource($this->user))->toArray($request),
-                'likes' => $this->likes,
-                'dislikes' => $this->dislikes
             ], []),
         ];
     }
