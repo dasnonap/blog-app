@@ -14,12 +14,18 @@ class PostResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $userLikedPost = false;
+
+        if (!empty(auth()->user())) {
+            $userLikedPost = $this->userLikes->contains(auth()->user()->id);
+        }
+
         return [
             'id' => $this->id,
             'slug' => $this->slug,
             'title' => $this->title,
             'created_at' => $this->created_at->format('Y-m-d'),
-            'liked' => $this->userLikes->contains(auth()->user()->id),
+            'liked' => $userLikedPost,
             'likes' => $this->likes_count,
             'author' => $this->user,
             'dislikes' => $this->dislikes_count,
