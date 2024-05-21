@@ -131,4 +131,28 @@ class Post extends Model
 
         $this->save();
     }
+
+    /**
+     * Checks if user liked a post
+     * @param User $user
+     * @return bool
+     */
+    public function doesUserLikedPost(User $user)
+    {
+        $this->load('userLikes');
+
+        return $this->userLikes->contains($user->id);
+    }
+
+    /**
+     * Checks if user disliked a post
+     * @param User $user
+     * @return bool
+     */
+    public function doesUserDislikedPost(User $user)
+    {
+        $this->load('userDislikes');
+
+        return $this->userDislikes->contains($user->id);
+    }
 }

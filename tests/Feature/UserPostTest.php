@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Post;
+use Illuminate\Testing\Fluent\AssertableJson;
 
 class UserPostTest extends TestCase
 {
@@ -106,5 +107,50 @@ class UserPostTest extends TestCase
                 sprintf('/api/posts/%s/like', $post->id)
             );
         $response->assertSessionHasNoErrors();
+    }
+
+    public function test_user_post_unlike()
+    {
+        $post = Post::inRandomOrder()->limit(1)->get()->first();
+        $user = User::inRandomOrder()->limit(1)->get()->first();
+
+        $response = $this->actingAs($user)
+            ->patch(
+                route('posts.unlike', [$post->id])
+            );
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonPath('post.liked', false);
+    }
+
+    public function test_user_post_dislike()
+    {
+        $post = Post::inRandomOrder()->limit(1)->get()->first();
+        $user = User::inRandomOrder()->limit(1)->get()->first();
+
+        $response = $this->actingAs($user)
+            ->patch(
+                route('posts.dislike', [$post->id])
+            );
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonPath('post.disliked', true);
+    }
+
+    public function test_user_post_undislike()
+    {
+        $post = Post::inRandomOrder()->limit(1)->get()->first();
+        $user = User::inRandomOrder()->limit(1)->get()->first();
+
+        $response = $this->actingAs($user)
+            ->patch(
+                route('posts.undislike', [$post->id])
+            );
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonPath('post.disliked', false);
     }
 }

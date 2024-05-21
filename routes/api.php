@@ -30,5 +30,12 @@ Route::middleware("auth:sanctum")->group(function () {
 
     Route::post('/posts/{post}/edit', [PostsController::class, 'update'])->name('posts.update');
 
+    // User - Post Iteraction
     Route::patch('/posts/{post}/like', [PostsController::class, 'like'])->name('posts.like');
+
+    Route::patch('/posts/{post}/unlike', [PostsController::class, 'unlike'])->name('posts.unlike');
+
+    Route::patch('/posts/{post}/dislike', [PostsController::class, 'dislike'])->name('posts.dislike');
+
+    Route::patch('/posts/{post}/undislike', [PostsController::class, 'undislike'])->name('posts.undislike');
 });

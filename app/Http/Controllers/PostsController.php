@@ -8,6 +8,8 @@ use App\Http\Resources\PostsResource;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Carbon\Carbon;
+use App\Models\User;
+use PO;
 
 class PostsController extends Controller
 {
@@ -62,6 +64,7 @@ class PostsController extends Controller
         );
     }
 
+    // Update
     function update(string $postId, Request $request)
     {
         $post = Post::where('id', $postId)
@@ -86,23 +89,60 @@ class PostsController extends Controller
         );
     }
 
-    function like(string $post, Request $request)
+    // Like
+    function like(Post $post, Request $request)
     {
-        $post = Post::with(['user', 'userLikes'])->where('id', '=', $post)->get()->first();
-        $user = auth()->user();
-
-        $post->userLikes()->attach($user->id);
-
-        $post = $post->load('user', 'userLikes');
-
-        $post->likes_count = $post->userLikes->count();
-
-        $post->save();
+        $post->userLikePost(auth()->user());
 
         return response()->json(
             [
                 'success' => true,
                 'newValue' => $post->likes_count,
+                'post' => (new PostResource($post))->toArray($request)
+            ],
+            200
+        );
+    }
+
+    // Unlike
+    function unlike(Post $post, Request $request)
+    {
+        $post->userUnlikePost(auth()->user());
+
+        return response()->json(
+            [
+                'success' => true,
+                'newValue' => $post->likes_count,
+                'post' => (new PostResource($post))->toArray($request)
+            ],
+            200
+        );
+    }
+
+    // Dislike
+    function dislike(Post $post, Request $request)
+    {
+        $post->userDislikePost(auth()->user());
+
+        return response()->json(
+            [
+                'success' => true,
+                'newValue' => $post->dislikes_count,
+                'post' => (new PostResource($post))->toArray($request)
+            ],
+            200
+        );
+    }
+
+    // Undislike
+    function undislike(Post $post, Request $request)
+    {
+        $post->userUnDislikePost(auth()->user());
+
+        return response()->json(
+            [
+                'success' => true,
+                'newValue' => $post->dislikes_count,
                 'post' => (new PostResource($post))->toArray($request)
             ],
             200
