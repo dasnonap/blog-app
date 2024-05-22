@@ -5,12 +5,12 @@
   "tailwind": {
     "config": "tailwind.config.js",
     "css": "resources/css/app.css",
-    "baseColor": "slate",
+    "baseColor": "stone",
     "cssVariables": true,
     "prefix": ""
   },
   "aliases": {
-    "components": "@/components",
-    "plate-ui": "@/components/plate-ui"
+    "components": "@/Components/plate",
+    "plate-ui": "@/Components/plate-ui"
   }
 }

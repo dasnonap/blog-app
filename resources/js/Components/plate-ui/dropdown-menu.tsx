@@ -14,7 +14,7 @@ import {
 } from '@udecode/cn';
 import { cva } from 'class-variance-authority';
 
-import { Icons } from '@/components/icons';
+import { Icons } from '@/Components/icons';
 
 export const DropdownMenu = DropdownMenuPrimitive.Root;
 

@@ -16,7 +16,7 @@ import {
   useDraggableState,
 } from '@udecode/plate-dnd';
 
-import { Icons } from '@/components/icons';
+import { Icons } from '@/Components/icons';
 
 import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip';
 
