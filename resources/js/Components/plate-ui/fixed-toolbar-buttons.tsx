@@ -38,9 +38,6 @@ export function FixedToolbarButtons() {
     <div className="w-full overflow-hidden">
       <div
         className="flex flex-wrap"
-        style={{
-          transform: 'translateX(calc(-1px))',
-        }}
       >
         {!readOnly && (
           <>
