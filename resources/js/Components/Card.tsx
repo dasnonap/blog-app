@@ -1,3 +1,5 @@
+import { Link } from '@inertiajs/react';
+
 const Card = ({ title, excerpt, imageUrl, user, tags }) => {
 	return (
 		<div className="card flex flex-col shadow-xl p-6 pb-8 bg-white h-full">
@@ -13,7 +15,7 @@ const Card = ({ title, excerpt, imageUrl, user, tags }) => {
 				})}
 			</div>
 
-			<div className="text-2xl mb-3 font-semibold">{title}</div>
+			<Link href="/article" className="text-2xl mb-3 font-semibold">{title}</Link>
 
 			<div className="text-base mb-14 text-gray-600">{excerpt}</div>
 

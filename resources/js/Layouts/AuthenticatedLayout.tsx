@@ -17,7 +17,7 @@ export default function Authenticated({ user, header, children }) {
 
 	return (
 		<>
-			<header className="px-6 py-3 bg-white border-b border-gray-100">
+			<header className="px-6 py-3 bg-white border-b border-gray-100 z-100 relative">
 				<div className="flex justify-between items-center">
 					<div className="flex gap-6 items-center">
 						<Link href="/">
@@ -76,7 +76,7 @@ export default function Authenticated({ user, header, children }) {
 							</Menu.Button>
 
 							<Menu.Items
-								className="absolute top-full right-0 bg-white border border-gray-100 rounded-lg text-sm font-medium w-max"
+								className="absolute z-[60] top-full right-0 bg-white border border-gray-100 rounded-lg text-sm font-medium w-max"
 								anchor="bottom"
 							>
 								<div className="px-4 py-3">
