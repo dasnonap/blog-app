@@ -4,13 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
-use App\Http\Resources\PostsResource;
 use Illuminate\Http\Request;
 use App\Models\Post;
-use Carbon\Carbon;
-use App\Models\User;
-use Illuminate\Http\JsonResponse;
-use PO;
 
 class PostsController extends Controller
 {

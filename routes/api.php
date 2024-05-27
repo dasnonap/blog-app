@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\TagsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,4 +39,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::patch('/posts/{post}/dislike', [PostsController::class, 'dislike'])->name('posts.dislike');
 
     Route::patch('/posts/{post}/undislike', [PostsController::class, 'undislike'])->name('posts.undislike');
+
+    // Tags 
+    Route::post('/tags/create', [TagsController::class, 'create'])->name('tags.create');
 });
