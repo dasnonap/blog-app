@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Tag;
 
 class UserTagTest extends TestCase
 {
@@ -59,5 +60,27 @@ class UserTagTest extends TestCase
             );
 
         $response->assertStatus(302);
+    }
+
+    public function test_tag_update_success()
+    {
+        $user = User::inRandomOrder()->limit(1)->get()->first();
+        $tag = Tag::inRandomOrder()->limit(1)->get()->first();
+
+        $newTagName = 'Updated Post Name';
+        $newTagIcon = './assets/icons/anime.svg';
+
+        $response = $this->actingAs($user)
+            ->post(
+                route('tags.update', [
+                    'tag' => $tag->id,
+                    'name' => $newTagName,
+                    'icon' => $newTagIcon
+                ])
+            );
+
+        $response->assertStatus(200)
+            ->assertJsonPath('tag.name', $newTagName)
+            ->assertJsonPath('tag.icon', $newTagIcon);
     }
 }
