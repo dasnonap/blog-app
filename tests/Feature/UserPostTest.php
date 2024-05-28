@@ -185,4 +185,30 @@ class UserPostTest extends TestCase
                 ]
             ]);
     }
+
+    public function test_user_post_update_with_tags()
+    {
+        $user = User::with('posts')->has('posts', '>=', 1)->inRandomOrder()->limit(1)->get()->first();
+        $tags = Tag::inRandomOrder()->limit(5)->get()->collect()->pluck('id')->toArray();
+        $post = $user->posts->first();
+
+        $response = $this->actingAs($user)
+            ->post(
+                route('posts.update', [
+                    $post->id
+                ]),
+                [
+                    'title' => 'Updated Post with Tags',
+                    'tags' => $tags,
+                ]
+            );
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'success',
+                'post' => [
+                    'tags'
+                ]
+            ]);
+    }
 }

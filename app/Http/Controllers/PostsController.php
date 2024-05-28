@@ -97,6 +97,12 @@ class PostsController extends Controller
 
         $post->save();
 
+        if (isset($request->tags)) {
+            $post->tags()->sync($request->tags);
+            dd($this->preparePostResponseArray($post, $request));
+            $post->save();
+        }
+
         return response()->json(
             $this->preparePostResponseArray($post, $request),
             200
