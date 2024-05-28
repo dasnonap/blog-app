@@ -59,6 +59,7 @@ class PostsController extends Controller
         $request->validate([
             'title' => 'required:string',
             'content' => 'required',
+            'tags' => 'array'
         ]);
 
         $post = new Post([
@@ -68,6 +69,11 @@ class PostsController extends Controller
         ]);
 
         $post->save();
+
+        if (isset($request->tags)) {
+            $post->tags()->sync($request->tags);
+            $post->save();
+        }
 
         return response()->json(
             $this->preparePostResponseArray($post, $request),

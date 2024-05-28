@@ -15,7 +15,6 @@ class PostsResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        dd($this->collection);
         return [
             'data' => $this->collection->transform(function (Post $post) {
                 return new PostResource($post);

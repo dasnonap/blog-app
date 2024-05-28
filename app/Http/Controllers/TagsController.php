@@ -58,7 +58,6 @@ class TagsController extends Controller
 
         $tag->save();
 
-
         return response()->json(
             $this->prepareTagResponseArray($tag, $request),
             200
