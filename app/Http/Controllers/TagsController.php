@@ -41,4 +41,27 @@ class TagsController extends Controller
             200
         );
     }
+
+    // Update 
+    /** 
+     * @to-do
+     * @reference https://github.com/dasnonap/blog-app/issues/1#issuecomment-2135822712
+     */
+    function update(Tag $tag, Request $request)
+    {
+        $request->validate([
+            'name' => 'required:string'
+        ]);
+
+        $tag->name = $request->name;
+        $tag->icon = $request->icon;
+
+        $tag->save();
+
+
+        return response()->json(
+            $this->prepareTagResponseArray($tag, $request),
+            200
+        );
+    }
 }
