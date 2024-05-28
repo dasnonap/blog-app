@@ -99,7 +99,6 @@ class PostsController extends Controller
 
         if (isset($request->tags)) {
             $post->tags()->sync($request->tags);
-            dd($this->preparePostResponseArray($post, $request));
             $post->save();
         }
 
