@@ -28,4 +28,21 @@ class UserTagTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonPath('tag.name', $tagName);
     }
+
+    public function test_tag_create_duplicate(): void
+    {
+        $user = User::inRandomOrder()->limit(1)->get()->first();
+
+        $tagName = 'Anime';
+
+        $response = $this->actingAs($user)
+            ->post(
+                route('tags.create', [
+                    'name' => $tagName
+                ])
+            );
+
+        $response->assertStatus(200)
+            ->assertJsonPath('tag.name', $tagName);
+    }
 }
