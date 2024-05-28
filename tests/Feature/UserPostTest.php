@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Http\Resources\TagCollection;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Tag;
 
 class UserPostTest extends TestCase
 {
@@ -20,6 +22,13 @@ class UserPostTest extends TestCase
         $response = $this->get('/api/posts');
 
         $response->assertStatus(200);
+    }
+
+    public function test_fill_random_tags()
+    {
+        $tags = Tag::factory(20)->create();
+
+        $this->assertNotEmpty($tags, "Tags are not created");
     }
 
     public function test_user_post_creation(): void
@@ -149,5 +158,31 @@ class UserPostTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJsonPath('post.disliked', false);
+    }
+
+    public function test_user_post_create_with_tags()
+    {
+        $user = User::inRandomOrder()->limit(1)->get()->first();
+        $tags = Tag::inRandomOrder()->limit(5)->get()->collect()->pluck('id')->toArray();
+
+        $response = $this->actingAs($user)
+            ->post(
+                route('posts.create'),
+                [
+                    'title' => 'Post with Tags',
+                    'content' => json_encode([
+                        'example' => 'content'
+                    ]),
+                    'tags' => $tags
+                ]
+            );
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'success',
+                'post' => [
+                    'tags'
+                ]
+            ]);
     }
 }
