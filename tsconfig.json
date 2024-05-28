@@ -18,6 +18,8 @@
 		"paths": {
       "@/*": ["./resources/js/*"],
 			"assets/*": ["./resources/assets/*"],
+			"types/*": ["./resources/types/*"],
+			"mock/*": ["./resources/mock/*"],
     }
 	},
 	"include": ["resources/js/**/*.ts", "resources/js/**/*.tsx"],
