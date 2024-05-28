@@ -45,4 +45,19 @@ class UserTagTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonPath('tag.name', $tagName);
     }
+
+    public function test_tag_error_creation(): void
+    {
+        $user = User::inRandomOrder()->limit(1)->get()->first();
+
+        $response = $this->actingAs($user)
+            ->post(
+                route('tags.create'),
+                [
+                    'name' => ''
+                ]
+            );
+
+        $response->assertStatus(302);
+    }
 }
