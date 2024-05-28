@@ -25,12 +25,12 @@ const InfiniteScrollLoader = () => {
 			>
 				<circle class="spinner_I8Q1" cx="4" cy="12" r="1.5" />
 				<circle
-					class="spinner_I8Q1 spinner_vrS7"
+					className="spinner_I8Q1 spinner_vrS7"
 					cx="12"
 					cy="12"
 					r="3"
 				/>
-				<circle class="spinner_I8Q1" cx="20" cy="12" r="1.5" />
+				<circle className="spinner_I8Q1" cx="20" cy="12" r="1.5" />
 			</svg>
 		</>
 	);

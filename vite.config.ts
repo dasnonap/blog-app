@@ -15,6 +15,8 @@ export default defineConfig({
 		alias: {
 			'@': path.resolve(__dirname, 'resources/js'),
 			'assets': path.resolve(__dirname, 'resources/assets'),
+			'mock': path.resolve(__dirname, 'resources/mock'),
+			'types': path.resolve(__dirname, 'resources/types'),
 		},
 		extensions: ['.js', '.jsx', '.ts', '.tsx'],
 	},
