@@ -4,13 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
-use App\Http\Resources\PostsResource;
 use Illuminate\Http\Request;
 use App\Models\Post;
-use Carbon\Carbon;
-use App\Models\User;
-use Illuminate\Http\JsonResponse;
-use PO;
 
 class PostsController extends Controller
 {
@@ -64,6 +59,7 @@ class PostsController extends Controller
         $request->validate([
             'title' => 'required:string',
             'content' => 'required',
+            'tags' => 'array'
         ]);
 
         $post = new Post([
@@ -73,6 +69,11 @@ class PostsController extends Controller
         ]);
 
         $post->save();
+
+        if (isset($request->tags)) {
+            $post->tags()->sync($request->tags);
+            $post->save();
+        }
 
         return response()->json(
             $this->preparePostResponseArray($post, $request),
@@ -95,6 +96,11 @@ class PostsController extends Controller
         $post->content = $request->content;
 
         $post->save();
+
+        if (isset($request->tags)) {
+            $post->tags()->sync($request->tags);
+            $post->save();
+        }
 
         return response()->json(
             $this->preparePostResponseArray($post, $request),
