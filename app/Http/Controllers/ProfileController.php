@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
-/**
- * @OA\Info(title="ProfileController", version="0.1")
- */
 class ProfileController extends Controller
 {
     /**

@@ -7,6 +7,9 @@ use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
 use App\Models\Post;
 
+/**
+ * @OA\Info(title="blog-app", version="0.1")
+ */
 class PostsController extends Controller
 {
 
@@ -31,6 +34,20 @@ class PostsController extends Controller
     }
 
     // Fetch posts
+    /**
+     * @OA\Get(
+     *     path="/api/posts",
+     *     summary="Get posts",
+     *     tags={"Posts"},
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Request object",
+     *         required=false
+     *     ),
+     *     @OA\Response(response=200, description="List all posts"),
+     * )
+     */
     function index(Request $request)
     {
         $posts = Post::with('user', 'userLikes')->paginate();
@@ -41,6 +58,20 @@ class PostsController extends Controller
     }
 
     // Get single post
+    /**
+     * @OA\Get(
+     *     path="/api/posts/{postId}/edit",
+     *     summary="Get single post info ",
+     *     tags={"Posts"},
+     *     @OA\Parameter(
+     *         name="postId",
+     *         in="path",
+     *         description="Request object",
+     *         required=true
+     *     ),
+     *     @OA\Response(response=200, description="View a single post"),
+     * )
+     */
     function edit(string $postId, Request $request)
     {
         $post = Post::where('id', $postId)
