@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Http\Resources\TagCollection;
 use Tests\TestCase;
 use App\Models\User;
@@ -10,6 +11,14 @@ use App\Models\Tag;
 
 class UserPostTest extends TestCase
 {
+    // use RefreshDatabase;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->artisan('db:seed');
+    }
+
     /**
      * A basic feature test example.
      */
