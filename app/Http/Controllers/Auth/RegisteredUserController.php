@@ -13,9 +13,28 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Role;
 
 class RegisteredUserController extends Controller
 {
+    /**
+     *  Determines what role should the new user is based on logic
+     * @param Request $request incoming request
+     * @return Role the role of the new user
+     */
+    private function getUserRole(Request $request): Role
+    {
+        $type = 'user';
+
+        if ($request->email === env('APP_ADMINISTRATOR_EMAIL')) {
+            $type = 'admin';
+        }
+
+        $role = Role::where('type', '=', $type)->get()->first();
+
+        return $role;
+    }
+
     /**
      * Display the registration view.
      */
@@ -45,6 +64,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'username' => $request->username,
+            'role_id' => $this->getUserRole($request)->id
         ]);
 
         event(new Registered($user));
