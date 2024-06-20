@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminTokenController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -29,12 +30,12 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('article', function() {
-	return Inertia::render('Article');
+Route::get('article', function () {
+    return Inertia::render('Article');
 });
 
-Route::get('create', function() {
-	return Inertia::render('Create');
+Route::get('create', function () {
+    return Inertia::render('Create');
 })->middleware(['auth', 'verified'])->name('create');
 
 Route::middleware('auth')->group(function () {
@@ -43,4 +44,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

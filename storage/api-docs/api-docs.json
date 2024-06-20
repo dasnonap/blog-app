@@ -1,10 +1,54 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "ProfileController",
+        "title": "blog-app",
         "version": "0.1"
     },
     "paths": {
+        "/api/posts": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Get posts",
+                "operationId": "d852dbfabce2a65704c28f73a30ce29c",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Request object",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List all posts"
+                    }
+                }
+            }
+        },
+        "/api/posts/{postId}/edit": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Get single post info ",
+                "operationId": "9a420e06932706f5812df82786e677a6",
+                "parameters": [
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "description": "Request object",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "View a single post"
+                    }
+                }
+            }
+        },
         "/profile": {
             "patch": {
                 "tags": [
