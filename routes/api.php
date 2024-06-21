@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Protected routes
-Route::middleware("auth:sanctum")->group(function () {
+Route::middleware(["auth:sanctum", "ability:dev-api"])->group(function () {
     Route::controller(PostsController::class)->group(function () {
         Route::post('/posts/create', 'create')->name('posts.create');
 
