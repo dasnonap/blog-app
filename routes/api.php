@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\TagsController;
+use App\Http\Controllers\AdminTokenController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Protected routes
-Route::middleware("auth:sanctum")->group(function () {
+Route::middleware(["auth:sanctum", "ability:dev-api"])->group(function () {
     Route::controller(PostsController::class)->group(function () {
         Route::post('/posts/create', 'create')->name('posts.create');
 
@@ -46,5 +47,9 @@ Route::middleware("auth:sanctum")->group(function () {
         Route::post('/tags/create', 'create')->name('tags.create');
 
         Route::post('/tags/{tag}/update', 'update')->name('tags.update');
+    });
+
+    Route::controller(AdminTokenController::class)->group(function () {
+        Route::post('/tokens/create', 'create')->name('tokens.create');
     });
 });
